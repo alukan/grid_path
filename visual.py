@@ -13,6 +13,7 @@
 # print(t_pos, s_pos)
 
 import heapq
+import time
 
 def manhattan_distance(x1, y1, x2, y2):
     return abs(x1 - x2) + abs(y1 - y2)
@@ -41,8 +42,8 @@ def a_star_search(n, grid, start, target):
 
     return []
 
-def print_path(grid, path):
-    path_set = set(path)
+def print_path(grid, path, count):
+    path_set = set(path[:count+1])
     path_directions = {path[i]: path[i + 1] for i in range(len(path) - 1)}
 
     for i, row in enumerate(grid):
@@ -72,8 +73,8 @@ def main():
     grid = []
     start = (0, 0)
     target = (0, 0)
-
-    with open('test/test4.txt', 'r') as file:
+    num_test = input('Enter number of test: ')
+    with open('test/test' + num_test + '.txt', 'r') as file:
         N = int(file.readline().strip())
         for i in range(N):
             line = file.readline().strip()
@@ -86,7 +87,10 @@ def main():
 
 
     path = a_star_search(N, grid, start, target)
-    print_path(grid, path)
+    for i in range(len(path)):
+        print_path(grid, path, i)
+        print()
+        time.sleep(0.3)
 
 if __name__ == "__main__":
     main()
