@@ -35,7 +35,8 @@ def a_star_search(n, grid, start, target):
             nx, ny = x + dx, y + dy
             if 0 <= nx < n and 0 <= ny < n and grid[nx][ny] != '#' and (nx, ny) not in visited:
                 visited.add((nx, ny))
-                next_cost = current_cost + 1
+                terrain_cost = 0 if grid[nx][ny] in 'ST.' else int(grid[nx][ny])
+                next_cost = current_cost + terrain_cost
                 distans = manhattan_distance(nx, ny, *target)
                 heapq.heappush(pq, (next_cost + distans, (nx, ny), path + [(nx, ny)]))
 
@@ -67,8 +68,8 @@ def main():
     grid = []
     start = (0, 0)
     target = (0, 0)
-
-    with open('test/test4.txt', 'r') as file:
+    num_test = input('Enter number of test: ')
+    with open('test/test' + num_test + '.txt', 'r') as file:
         N = int(file.readline().strip())
         for i in range(N):
             line = file.readline().strip()

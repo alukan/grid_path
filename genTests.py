@@ -2,8 +2,12 @@ import os
 import random
 from collections import deque
 
-def gen_grid(n):
-    grid = [[random.choice(['#', '.']) for _ in range(n)] for _ in range(n)]
+def gen_grid(n, with_nums):
+    if with_nums:
+        grid = [[random.choice(['#', str(random.randint(0, 9))]) for _ in range(n)] for _ in range(n)]
+    else:
+        print('without')
+        grid = [[random.choice(['#', '.']) for _ in range(n)] for _ in range(n)]
     
     def dfs(x, y, target, path):
         if (x, y) == target:
@@ -33,7 +37,10 @@ def gen_grid(n):
         return gen_grid(n)
 
     for (x, y) in path:
-        grid[x][y] = '.'
+        if with_nums:
+            grid[x][y] = str(random.randint(0, 9))
+        else:
+            grid[x][y] = '.'
     grid[start[0]][start[1]] = 'S'
     grid[target[0]][target[1]] = 'T'
 
@@ -49,10 +56,10 @@ def main():
     min_size = int(input('Enter minimum size: '))
     max_size = int(input('Enter maximum size: '))
     num_tests = int(input('Enter number of tests: '))
-    
+    with_nums = int(input('Do you want to generate with terrain difficulty? (1: yes, 0: no): '))
     for i in range(num_tests):
         size = random.randint(min_size, max_size)
-        grid = gen_grid(size)
+        grid = gen_grid(size, with_nums)
         
         os.makedirs(f'test/', exist_ok=True)
         
